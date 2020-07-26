@@ -4,7 +4,7 @@ from django.urls import reverse
 # Create your models here.
 
 class Post(models.Model):
-    author = models.ForeignKey('auth.User')
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
     create_date = models.DateTimeField(timezone.now())
@@ -24,11 +24,11 @@ class Post(models.Model):
         return self.title
 
 class Comment(models.Model):
-    post = models.ForeignKey('blog.Post', related_name='comments')
+    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=120)
     text = models.TextField()
     create_date = models.DateTimeField(timezone.now())
-    approved_comment = model.BooleanField(default=False)
+    approved_comment = models.BooleanField(default=False)
 
     def approve(self):
         self.approved_comment = True
